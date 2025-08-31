@@ -155,6 +155,46 @@ def generate_action_plan(analysis_id):
     flash('Action plan generated successfully!', 'success')
     return redirect(url_for('action_plan', analysis_id=analysis_id))
 
+@app.route('/complete-task/<int:analysis_id>/<task_id>', methods=['POST'])
+def complete_task(analysis_id, task_id):
+    """Mark a task as complete and update progress"""
+    action_plan = ActionPlan.query.filter_by(analysis_id=analysis_id).first()
+    
+    if not action_plan:
+        flash('Action plan not found.', 'error')
+        return redirect(url_for('action_plan', analysis_id=analysis_id))
+    
+    # Initialize completed_tasks if None
+    if action_plan.completed_tasks is None:
+        action_plan.completed_tasks = []
+    
+    # Toggle task completion
+    if task_id in action_plan.completed_tasks:
+        action_plan.completed_tasks.remove(task_id)
+        flash('Task marked as incomplete.', 'info')
+    else:
+        action_plan.completed_tasks.append(task_id)
+        flash('Task marked as complete!', 'success')
+    
+    # Update readiness score based on completed tasks
+    if action_plan.completed_tasks:
+        # Calculate new readiness score
+        total_tasks = len(action_plan.tasks) if action_plan.tasks else 1
+        completed_count = len(action_plan.completed_tasks)
+        progress_percentage = (completed_count / total_tasks) * 100
+        
+        # Get original analysis
+        analysis = Analysis.query.get(analysis_id)
+        if analysis:
+            # Increase readiness score based on progress
+            original_score = analysis.readiness_score or 0
+            max_improvement = 100 - original_score
+            improvement = (progress_percentage / 100) * max_improvement
+            action_plan.updated_readiness_score = min(100, original_score + improvement)
+    
+    db.session.commit()
+    return redirect(url_for('action_plan', analysis_id=analysis_id))
+
 if __name__ == '__main__':
     # Create uploads directory if it doesn't exist
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)

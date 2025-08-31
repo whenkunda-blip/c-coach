@@ -397,10 +397,21 @@ class ActionPlanGenerator:
         return 'intermediate'
     
     def _get_learning_resources(self, skill_name: str, target_level: str) -> List[Dict]:
-        """Get learning resources prioritizing LinkedIn Learning"""
+        """Get learning resources prioritizing LinkedIn Learning and official docs"""
         resources = []
         
-        # Try LinkedIn Learning first
+        # Add official documentation first (always available)
+        official_docs = self._get_official_documentation(skill_name)
+        if official_docs:
+            resources.append({
+                'name': f"Official Documentation: {skill_name}",
+                'url': official_docs,
+                'type': 'documentation',
+                'platform': 'Official',
+                'priority': 'reference'
+            })
+        
+        # Try LinkedIn Learning second (premium structured learning)
         linkedin_course = self.LINKEDIN_LEARNING_COURSES.get(skill_name, {}).get(target_level)
         if linkedin_course:
             resources.append({
@@ -413,7 +424,7 @@ class ActionPlanGenerator:
                 'priority': 'primary'
             })
         
-        # Add YouTube as backup
+        # Add YouTube as backup (free alternative)
         youtube_resource = self.YOUTUBE_RESOURCES.get(skill_name, {}).get(target_level)
         if youtube_resource:
             resources.append({
@@ -424,17 +435,6 @@ class ActionPlanGenerator:
                 'channel': youtube_resource['channel'],
                 'duration': youtube_resource['duration'],
                 'priority': 'secondary'
-            })
-        
-        # Add official documentation
-        official_docs = self._get_official_documentation(skill_name)
-        if official_docs:
-            resources.append({
-                'name': f"Official Documentation: {skill_name}",
-                'url': official_docs,
-                'type': 'documentation',
-                'platform': 'Official',
-                'priority': 'reference'
             })
         
         return resources
