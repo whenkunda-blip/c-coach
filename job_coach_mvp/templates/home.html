@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Job-Ready Career Coach - Get Personalized Action Plans{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <!-- Hero Section -->
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            Know Exactly What Skills to Learn
+            <span class="text-primary">Before Applying</span>
+        </h1>
+        
+        <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            Upload your resume and a job description. Get a personalized action plan with specific tasks to become job-ready in weeks, not months.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <a href="{{ url_for('upload') }}" 
+               class="bg-primary hover:bg-blue-600 text-white font-semibold py-4 px-8 rounded-lg text-lg transition-colors duration-200 shadow-lg hover:shadow-xl">
+                Start Your Analysis
+            </a>
+            <a href="#how-it-works" 
+               class="border border-gray-300 hover:border-primary text-gray-700 hover:text-primary font-semibold py-4 px-8 rounded-lg text-lg transition-colors duration-200">
+                How It Works
+            </a>
+        </div>
+    </div>
+
+    <!-- Demo Flow -->
+    <div id="how-it-works" class="max-w-6xl mx-auto mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">How It Works (2 Minutes)</h2>
+        
+        <div class="grid md:grid-cols-5 gap-6">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white font-bold text-xl">1</span>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Upload Resume</h3>
+                <p class="text-gray-600 text-sm">Drag your resume PDF here or paste text</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white font-bold text-xl">2</span>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Add Job Description</h3>
+                <p class="text-gray-600 text-sm">Paste job posting from LinkedIn</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white font-bold text-xl">3</span>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">See Skill Analysis</h3>
+                <p class="text-gray-600 text-sm">73% ready - missing React and AWS</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white font-bold text-xl">4</span>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Get Action Plan</h3>
+                <p class="text-gray-600 text-sm">Complete these 4 tasks in 3 weeks</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-success rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white font-bold text-xl">5</span>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Track Progress</h3>
+                <p class="text-gray-600 text-sm">Mark tasks done, watch readiness improve</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Value Proposition -->
+    <div class="bg-white rounded-2xl shadow-lg p-8 mb-16">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Why Job Coach?</h2>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Laser-Focused</h3>
+                <p class="text-gray-600">Get specific skills for the exact job you want, not generic advice</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-12 h-12 bg-success/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Actionable Tasks</h3>
+                <p class="text-gray-600">Clear, specific tasks with time estimates and resources</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-12 h-12 bg-warning/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Time-Saving</h3>
+                <p class="text-gray-600">Weeks, not months. Focus on what matters most for the job</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-gradient-to-r from-primary to-blue-600 rounded-2xl p-8 text-white">
+        <h2 class="text-3xl font-bold mb-4">Ready to Get Job-Ready?</h2>
+        <p class="text-xl mb-6 opacity-90">Stop guessing what skills you need. Get a personalized roadmap today.</p>
+        <a href="{{ url_for('upload') }}" 
+           class="bg-white text-primary hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg text-lg transition-colors duration-200 inline-block">
+            Start Your Free Analysis
+        </a>
+    </div>
+</div>
+{% endblock %}
