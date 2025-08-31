@@ -4,6 +4,7 @@ import os
 from models import db, Analysis, ActionPlan
 from text_processor import TextProcessor
 from gap_analyzer import GapAnalyzer
+from action_plan_generator import ActionPlanGenerator
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-here'
@@ -20,6 +21,9 @@ db.init_app(app)
 
 # Initialize gap analyzer
 gap_analyzer = GapAnalyzer()
+
+# Initialize action plan generator
+action_plan_generator = ActionPlanGenerator()
 
 def allowed_file(filename):
     """Check if file extension is allowed"""
@@ -103,7 +107,93 @@ def action_plan(analysis_id):
     """Display personalized action plan"""
     analysis = Analysis.query.get_or_404(analysis_id)
     action_plan = ActionPlan.query.filter_by(analysis_id=analysis_id).first()
+    
+    # Generate action plan if it doesn't exist
+    if not action_plan and analysis.skill_gaps:
+        action_plan_data = action_plan_generator.generate_action_plan(analysis_id, analysis.skill_gaps)
+        action_plan = ActionPlan(
+            analysis_id=analysis_id,
+            tasks=action_plan_data['tasks'],
+            completed_tasks=action_plan_data['completed_tasks'],
+            updated_readiness_score=action_plan_data['updated_readiness_score']
+        )
+        db.session.add(action_plan)
+        db.session.commit()
+    
     return render_template('action_plan.html', analysis=analysis, action_plan=action_plan)
+
+@app.route('/generate-action-plan/<int:analysis_id>')
+def generate_action_plan(analysis_id):
+    """Generate a new action plan"""
+    analysis = Analysis.query.get_or_404(analysis_id)
+    
+    if not analysis.skill_gaps:
+        flash('No skill gaps found to generate action plan.', 'error')
+        return redirect(url_for('analysis', analysis_id=analysis_id))
+    
+    # Generate action plan
+    action_plan_data = action_plan_generator.generate_action_plan(analysis_id, analysis.skill_gaps)
+    
+    # Check if action plan already exists
+    existing_plan = ActionPlan.query.filter_by(analysis_id=analysis_id).first()
+    if existing_plan:
+        # Update existing plan
+        existing_plan.tasks = action_plan_data['tasks']
+        existing_plan.completed_tasks = action_plan_data['completed_tasks']
+        existing_plan.updated_readiness_score = action_plan_data['updated_readiness_score']
+    else:
+        # Create new plan
+        action_plan = ActionPlan(
+            analysis_id=analysis_id,
+            tasks=action_plan_data['tasks'],
+            completed_tasks=action_plan_data['completed_tasks'],
+            updated_readiness_score=action_plan_data['updated_readiness_score']
+        )
+        db.session.add(action_plan)
+    
+    db.session.commit()
+    flash('Action plan generated successfully!', 'success')
+    return redirect(url_for('action_plan', analysis_id=analysis_id))
+
+@app.route('/complete-task/<int:analysis_id>/<task_id>', methods=['POST'])
+def complete_task(analysis_id, task_id):
+    """Mark a task as complete and update progress"""
+    action_plan = ActionPlan.query.filter_by(analysis_id=analysis_id).first()
+    
+    if not action_plan:
+        flash('Action plan not found.', 'error')
+        return redirect(url_for('action_plan', analysis_id=analysis_id))
+    
+    # Initialize completed_tasks if None
+    if action_plan.completed_tasks is None:
+        action_plan.completed_tasks = []
+    
+    # Toggle task completion
+    if task_id in action_plan.completed_tasks:
+        action_plan.completed_tasks.remove(task_id)
+        flash('Task marked as incomplete.', 'info')
+    else:
+        action_plan.completed_tasks.append(task_id)
+        flash('Task marked as complete!', 'success')
+    
+    # Update readiness score based on completed tasks
+    if action_plan.completed_tasks:
+        # Calculate new readiness score
+        total_tasks = len(action_plan.tasks) if action_plan.tasks else 1
+        completed_count = len(action_plan.completed_tasks)
+        progress_percentage = (completed_count / total_tasks) * 100
+        
+        # Get original analysis
+        analysis = Analysis.query.get(analysis_id)
+        if analysis:
+            # Increase readiness score based on progress
+            original_score = analysis.readiness_score or 0
+            max_improvement = 100 - original_score
+            improvement = (progress_percentage / 100) * max_improvement
+            action_plan.updated_readiness_score = min(100, original_score + improvement)
+    
+    db.session.commit()
+    return redirect(url_for('action_plan', analysis_id=analysis_id))
 
 if __name__ == '__main__':
     # Create uploads directory if it doesn't exist
