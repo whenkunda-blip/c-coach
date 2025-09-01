@@ -209,6 +209,10 @@ def complete_task(analysis_id, task_id):
 # Create uploads directory if it doesn't exist (for both local and production)
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
+# Initialize database tables (for both local and production)
+with app.app_context():
+    db.create_all()
+
 # Health check endpoint for Render
 @app.route('/health')
 def health_check():
@@ -216,10 +220,6 @@ def health_check():
     return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow().isoformat()})
 
 if __name__ == '__main__':
-    # Create database tables
-    with app.app_context():
-        db.create_all()
-    
     # Get port from environment variable (for Railway)
     port = int(os.environ.get('PORT', 5000))
     
