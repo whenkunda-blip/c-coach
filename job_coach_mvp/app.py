@@ -1,14 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from werkzeug.utils import secure_filename
 import os
+from datetime import datetime
 from models import db, Analysis, ActionPlan
 from text_processor import TextProcessor
 from gap_analyzer import GapAnalyzer
 from action_plan_generator import ActionPlanGenerator
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your-secret-key-here'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///job_coach.db'
+
+# Production configuration for Railway
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-here')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///job_coach.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
@@ -47,20 +50,28 @@ def upload():
             resume_file = request.files['resume_file']
             if resume_file and resume_file.filename != '':
                 if allowed_file(resume_file.filename):
-                    filename = secure_filename(resume_file.filename)
-                    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                    resume_file.save(file_path)
-                    
                     try:
-                        resume_text = TextProcessor.extract_text_from_file(file_path)
-                        resume_text = TextProcessor.clean_text(resume_text)
+                        filename = secure_filename(resume_file.filename)
+                        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                        
+                        # Ensure uploads directory exists
+                        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+                        
+                        resume_file.save(file_path)
+                        
+                        try:
+                            resume_text = TextProcessor.extract_text_from_file(file_path)
+                            resume_text = TextProcessor.clean_text(resume_text)
+                        except Exception as e:
+                            flash(f'Error processing resume: {str(e)}', 'error')
+                            return redirect(request.url)
+                        finally:
+                            # Clean up uploaded file
+                            if os.path.exists(file_path):
+                                os.remove(file_path)
                     except Exception as e:
-                        flash(f'Error processing resume: {str(e)}', 'error')
+                        flash(f'Error saving file: {str(e)}', 'error')
                         return redirect(request.url)
-                    finally:
-                        # Clean up uploaded file
-                        if os.path.exists(file_path):
-                            os.remove(file_path)
                 else:
                     flash('Invalid file type for resume. Please upload PDF, DOCX, or TXT.', 'error')
                     return redirect(request.url)
@@ -195,12 +206,22 @@ def complete_task(analysis_id, task_id):
     db.session.commit()
     return redirect(url_for('action_plan', analysis_id=analysis_id))
 
+# Create uploads directory if it doesn't exist (for both local and production)
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+# Initialize database tables (for both local and production)
+with app.app_context():
+    db.create_all()
+
+# Health check endpoint for Render
+@app.route('/health')
+def health_check():
+    """Health check endpoint for Render"""
+    return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow().isoformat()})
+
 if __name__ == '__main__':
-    # Create uploads directory if it doesn't exist
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+    # Get port from environment variable (for Railway)
+    port = int(os.environ.get('PORT', 5000))
     
-    # Create database tables
-    with app.app_context():
-        db.create_all()
-    
-    app.run(debug=True)
+    # Run in production mode on Railway
+    app.run(host='0.0.0.0', port=port, debug=False)
