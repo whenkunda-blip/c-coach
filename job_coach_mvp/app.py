@@ -76,16 +76,18 @@ def upload():
                     flash('Invalid file type for resume. Please upload PDF, DOCX, or TXT.', 'error')
                     return redirect(request.url)
         
-        # Handle resume text input
-        if not resume_text and request.form.get('resume_text'):
-            resume_text = TextProcessor.clean_text(request.form.get('resume_text'))
+
         
         # Handle job description
         if request.form.get('job_description'):
             job_description = TextProcessor.clean_text(request.form.get('job_description'))
         
-        if not resume_text or not job_description:
-            flash('Please provide both resume and job description.', 'error')
+        if not resume_text:
+            flash('Please upload a resume file.', 'error')
+            return redirect(request.url)
+        
+        if not job_description:
+            flash('Please provide a job description.', 'error')
             return redirect(request.url)
         
         # Perform skill analysis

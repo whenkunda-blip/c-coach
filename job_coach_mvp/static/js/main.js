@@ -1,4 +1,4 @@
-// Main JavaScript for Job Coach
+// Main JavaScript for Career Copilot
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all interactive elements
