@@ -26,9 +26,9 @@
                         <div class="text-gray-600">
                             <span class="font-medium">Click to upload</span> or drag and drop
                         </div>
-                        <p class="text-xs text-gray-500">PDF, DOCX, or TXT (max 16MB)</p>
+                        <p class="text-xs text-gray-500">PDF only (max 16MB)</p>
                     </div>
-                    <input type="file" name="resume_file" id="resume_file" accept=".pdf,.docx,.doc,.txt" 
+                    <input type="file" name="resume_file" id="resume_file" accept=".pdf" 
                            class="hidden" onchange="handleFileSelect(this)">
                 </div>
                 <div id="file-info" class="mt-2 text-sm text-gray-600 hidden"></div>
@@ -96,7 +96,7 @@ dropZone.addEventListener('drop', (e) => {
 function handleFileSelect(input) {
     const file = input.files[0];
     if (file) {
-        const allowedTypes = ['.pdf', '.docx', '.doc', '.txt'];
+        const allowedTypes = ['.pdf'];
         const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
         
         if (allowedTypes.includes(fileExtension)) {
@@ -104,7 +104,7 @@ function handleFileSelect(input) {
             fileInfo.classList.remove('hidden');
             dropZone.classList.add('border-green-300', 'bg-green-50');
         } else {
-            alert('Please select a valid file type (PDF, DOCX, DOC, or TXT)');
+            alert('Please select a valid file type (PDF only)');
             input.value = '';
         }
     }

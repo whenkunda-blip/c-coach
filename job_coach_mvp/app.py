@@ -17,7 +17,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # Allowed file extensions
-ALLOWED_EXTENSIONS = {'pdf', 'docx', 'doc', 'txt'}
+ALLOWED_EXTENSIONS = {'pdf'}
 
 # Initialize database
 db.init_app(app)
@@ -73,7 +73,7 @@ def upload():
                         flash(f'Error saving file: {str(e)}', 'error')
                         return redirect(request.url)
                 else:
-                    flash('Invalid file type for resume. Please upload PDF, DOCX, or TXT.', 'error')
+                    flash('Invalid file type for resume. Please upload PDF only.', 'error')
                     return redirect(request.url)
         
 
