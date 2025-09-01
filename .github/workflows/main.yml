@@ -1,0 +1,22 @@
+name: Keep Render App Alive
+
+on:
+  schedule:
+    # Run every 2 minutes
+    - cron: '*/2 * * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  ping-app:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Ping Render App
+      run: |
+        echo "Pinging Career Copilot app to keep it alive..."
+        curl -s -o /dev/null -w "Status: %{http_code}, Time: %{time_total}s\n" https://job-coach-mvp.onrender.com/health
+        
+    - name: Log timestamp
+      run: |
+        echo "Ping completed at $(date)"
+        echo "App should remain active for the next 2 minutes"
