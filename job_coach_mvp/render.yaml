@@ -3,7 +3,7 @@ services:
     name: job-coach-mvp
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    startCommand: gunicorn app:app --timeout 120 --workers 1
     envVars:
       - key: SECRET_KEY
         generateValue: true
@@ -11,3 +11,4 @@ services:
         value: production
       - key: DATABASE_URL
         value: sqlite:///job_coach.db
+    plan: free

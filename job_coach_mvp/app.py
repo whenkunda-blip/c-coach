@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from werkzeug.utils import secure_filename
 import os
+from datetime import datetime
 from models import db, Analysis, ActionPlan
 from text_processor import TextProcessor
 from gap_analyzer import GapAnalyzer
@@ -207,6 +208,12 @@ def complete_task(analysis_id, task_id):
 
 # Create uploads directory if it doesn't exist (for both local and production)
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+# Health check endpoint for Render
+@app.route('/health')
+def health_check():
+    """Health check endpoint for Render"""
+    return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow().isoformat()})
 
 if __name__ == '__main__':
     # Create database tables
