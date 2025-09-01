@@ -1,4 +1,4 @@
-import fitz  # PyMuPDF
+import pdfplumber
 from docx import Document
 import re
 import os
@@ -22,14 +22,13 @@ class TextProcessor:
     
     @staticmethod
     def _extract_from_pdf(file_path):
-        """Extract text from PDF using PyMuPDF"""
+        """Extract text from PDF using pdfplumber"""
         try:
-            doc = fitz.open(file_path)
-            text = ""
-            for page in doc:
-                text += page.get_text()
-            doc.close()
-            return text.strip()
+            with pdfplumber.open(file_path) as pdf:
+                text = ""
+                for page in pdf.pages:
+                    text += page.extract_text() or ""
+                return text.strip()
         except Exception as e:
             raise ValueError(f"Error extracting text from PDF: {str(e)}")
     
