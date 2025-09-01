@@ -17,6 +17,6 @@ class ActionPlan(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     analysis_id = db.Column(db.Integer, db.ForeignKey('analysis.id'))
     tasks = db.Column(db.JSON)             # Generated tasks
-    completed_tasks = db.Column(db.JSON, default=list)
+    completed_tasks = db.Column(db.JSON, default=[])
     updated_readiness_score = db.Column(db.Float)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
