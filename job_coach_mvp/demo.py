@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Demo script for Job Coach MVP
+Demo script for Career Copilot MVP
 Shows the skill extraction and gap analysis functionality
 """
 

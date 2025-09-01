@@ -1,0 +1,23 @@
+Senior Data Analyst Position
+
+We are looking for a Senior Data Analyst with expertise in:
+- Advanced SQL and database management
+- Python programming for data analysis
+- Machine learning and predictive modeling
+- Data visualization tools (Tableau, Power BI)
+- Statistical analysis and A/B testing
+- Big data technologies (Spark, Hadoop)
+
+Requirements:
+- 5+ years of experience in data analysis
+- Proficiency in Python, R, or similar programming languages
+- Experience with machine learning algorithms
+- Strong statistical background
+- Experience with cloud platforms (AWS, Azure, GCP)
+- Excellent communication skills
+
+This role involves:
+- Developing predictive models
+- Creating automated reporting systems
+- Mentoring junior analysts
+- Collaborating with cross-functional teams

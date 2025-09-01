@@ -1,0 +1,21 @@
+MICHAEL RODRIGUEZ
+Data Analyst
+
+PROFESSIONAL SUMMARY
+Experienced data analyst with 3 years of experience in SQL, Python, and data visualization. Seeking to enhance skills in machine learning and advanced analytics.
+
+SKILLS
+- SQL (Intermediate)
+- Python (Basic)
+- Excel (Advanced)
+- Tableau (Intermediate)
+- Statistics (Intermediate)
+
+EXPERIENCE
+Data Analyst at TechCorp (2022-2025)
+- Analyzed customer data using SQL and Excel
+- Created dashboards in Tableau
+- Generated weekly reports for stakeholders
+
+EDUCATION
+Bachelor's in Business Administration, State University (2022)

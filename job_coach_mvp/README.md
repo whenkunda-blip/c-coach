@@ -52,6 +52,8 @@ Upload your resume and a job description, get a personalized action plan with sp
 
 ## 📦 Installation
 
+### Local Development
+
 1. **Clone the repository**
    ```bash
    cd job_coach_mvp
@@ -70,6 +72,39 @@ Upload your resume and a job description, get a personalized action plan with sp
 4. **Open your browser**
    ```
    http://localhost:5000
+   ```
+
+### Production Deployment (Railway)
+
+1. **Install Railway CLI**
+   ```bash
+   npm install -g @railway/cli
+   ```
+
+2. **Login to Railway**
+   ```bash
+   railway login
+   ```
+
+3. **Initialize Railway project**
+   ```bash
+   railway init
+   ```
+
+4. **Set environment variables**
+   ```bash
+   railway variables set SECRET_KEY=your-production-secret-key-here
+   railway variables set FLASK_ENV=production
+   ```
+
+5. **Deploy to Railway**
+   ```bash
+   railway up
+   ```
+
+6. **Get your production URL**
+   ```bash
+   railway domain
    ```
 
 ## 🧪 Testing
@@ -93,6 +128,9 @@ job_coach_mvp/
 ├── models.py                 # Database models
 ├── text_processor.py         # Resume/job description parsing
 ├── requirements.txt          # Python dependencies
+├── Procfile                  # Railway deployment configuration
+├── railway.json              # Railway settings
+├── runtime.txt               # Python version specification
 ├── README.md                # Project documentation
 ├── uploads/                 # User uploaded files (auto-created)
 ├── templates/
@@ -132,6 +170,12 @@ job_coach_mvp/
 3. **See Skill Analysis** (30 sec): View readiness score and gaps
 4. **Get Action Plan** (30 sec): Receive specific tasks with timeline
 5. **Track Progress** (30 sec): Mark tasks complete, see improvement
+
+## 🚀 Deployment Status
+
+- **Local Development**: ✅ Ready
+- **Railway Production**: ✅ Ready for deployment
+- **Demo URL**: Available after Railway deployment
 
 ## 📊 Success Metrics
 
