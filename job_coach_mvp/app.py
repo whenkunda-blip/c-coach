@@ -119,6 +119,14 @@ def action_plan(analysis_id):
     analysis = Analysis.query.get_or_404(analysis_id)
     action_plan = ActionPlan.query.filter_by(analysis_id=analysis_id).first()
     
+    # Debug: Print action plan state
+    if action_plan:
+        print(f"Action Plan Debug - ID: {action_plan.id}")
+        print(f"  Tasks: {len(action_plan.tasks) if action_plan.tasks else 0}")
+        print(f"  Completed Tasks: {action_plan.completed_tasks}")
+        print(f"  Completed Tasks Type: {type(action_plan.completed_tasks)}")
+        print(f"  Completed Tasks Length: {len(action_plan.completed_tasks) if action_plan.completed_tasks else 0}")
+    
     # Generate action plan if it doesn't exist
     if not action_plan and analysis.skill_gaps:
         action_plan_data = action_plan_generator.generate_action_plan(analysis_id, analysis.skill_gaps)
@@ -148,9 +156,10 @@ def generate_action_plan(analysis_id):
     # Check if action plan already exists
     existing_plan = ActionPlan.query.filter_by(analysis_id=analysis_id).first()
     if existing_plan:
-        # Update existing plan
+        # Update existing plan - preserve completed tasks
         existing_plan.tasks = action_plan_data['tasks']
-        existing_plan.completed_tasks = action_plan_data['completed_tasks']
+        # Don't overwrite completed_tasks - preserve user progress
+        # existing_plan.completed_tasks = action_plan_data['completed_tasks']
         existing_plan.updated_readiness_score = action_plan_data['updated_readiness_score']
     else:
         # Create new plan
@@ -179,12 +188,16 @@ def complete_task(analysis_id, task_id):
     if action_plan.completed_tasks is None:
         action_plan.completed_tasks = []
     
-    # Toggle task completion
-    if task_id in action_plan.completed_tasks:
-        action_plan.completed_tasks.remove(task_id)
+    # Toggle task completion - create new list to ensure SQLAlchemy detects the change
+    current_completed = list(action_plan.completed_tasks) if action_plan.completed_tasks else []
+    
+    if task_id in current_completed:
+        current_completed.remove(task_id)
+        action_plan.completed_tasks = current_completed
         flash('Task marked as incomplete.', 'info')
     else:
-        action_plan.completed_tasks.append(task_id)
+        current_completed.append(task_id)
+        action_plan.completed_tasks = current_completed
         flash('Task marked as complete!', 'success')
     
     # Update readiness score based on completed tasks
@@ -204,6 +217,12 @@ def complete_task(analysis_id, task_id):
             action_plan.updated_readiness_score = min(100, original_score + improvement)
     
     db.session.commit()
+    
+    # Debug: Print what was saved
+    print(f"After commit - Task {task_id} completion toggled")
+    print(f"  Completed tasks in DB: {action_plan.completed_tasks}")
+    print(f"  Completed tasks count: {len(action_plan.completed_tasks) if action_plan.completed_tasks else 0}")
+    
     return redirect(url_for('action_plan', analysis_id=analysis_id))
 
 # Create uploads directory if it doesn't exist (for both local and production)
