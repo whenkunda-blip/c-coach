@@ -471,15 +471,36 @@ class ActionPlanGenerator:
         """Get official documentation URLs for skills"""
         docs_mapping = {
             'Python': 'https://docs.python.org/3/',
+            'Python PEPs': 'https://www.python.org/dev/peps/',
+            'PyPI': 'https://pypi.org/',
             'React': 'https://react.dev/',
+            'React Native': 'https://reactnative.dev/docs/getting-started',
+            'MDN React Guide': 'https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_getting_started',
             'Django': 'https://docs.djangoproject.com/',
+            'Django REST Framework': 'https://www.django-rest-framework.org/',
+            'Django Start Page': 'https://www.djangoproject.com/start/',
             'AWS': 'https://docs.aws.amazon.com/',
+            'AWS Lambda Function URLs': 'https://docs.aws.amazon.com/lambda/latest/dg/urls-configuration.html',
+            'AWS Lambda URL Auth': 'https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html',
+            'AWS CLI Endpoints': 'https://docs.aws.amazon.com/cli/v1/userguide/cli-configure-endpoints.html',
             'Docker': 'https://docs.docker.com/',
+            'Docker Guides': 'https://docs.docker.com/guides/',
+            'Docker Manuals': 'https://docs.docker.com/manuals/',
+            'Docker Engine': 'https://docs.docker.com/engine/',
             'Kubernetes': 'https://kubernetes.io/docs/',
-                    'Git': 'https://git-scm.com/doc',
-        'JavaScript': 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
-        'SQL': 'https://www.w3schools.com/sql/',
-        'Data Science': 'https://pandas.pydata.org/docs/'
+            'Kubernetes Concepts': 'https://kubernetes.io/docs/concepts/overview/',
+            'Kubernetes Tutorials': 'https://kubernetes.io/docs/tutorials/',
+            'Kubernetes Deployments': 'https://kubernetes.io/docs/concepts/workloads/controllers/deployment/',
+            'Kubernetes Resource Management': 'https://docs.kubernetes.io/docs/concepts/configuration/manage-resources-containers/',
+            'Git': 'https://git-scm.com/doc',
+            'Git User Manual': 'https://git-scm.com/docs/user-manual',
+            'Git Log': 'https://git-scm.com/docs/git-log',
+            'Git Branch': 'https://git-scm.com/docs/git-branch',
+            'Git Add': 'https://git-scm.com/docs/git-add',
+            'Git Commit': 'https://git-scm.com/docs/git-commit',
+            'JavaScript': 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
+            'SQL': 'https://www.w3schools.com/sql/',
+            'Data Science': 'https://pandas.pydata.org/docs/'
         }
         return docs_mapping.get(skill_name)
     
