@@ -10,9 +10,9 @@ class ActionPlanGenerator:
         'Python': {
             'beginner': {
                 'title': 'Python Essential Training',
-                'url': 'https://www.linkedin.com/learning/python-essential-training-2',
+                'url': 'https://www.linkedin.com/learning/python-essential-training-18764650',
                 'duration': '4h 30m',
-                'instructor': 'Bill Weinman'
+                'instructor': 'Ryan Mitchell'
             },
             'intermediate': {
                 'title': 'Advanced Python',
@@ -91,9 +91,21 @@ class ActionPlanGenerator:
                 'instructor': 'James Williams'
             },
             'intermediate': {
-                'title': 'Docker: Advanced Concepts',
-                'url': 'https://www.linkedin.com/learning/docker-advanced-concepts',
+                'title': 'Docker Essential Training: 2 Orchestration',
+                'url': 'https://www.linkedin.com/learning/docker-essential-training-2-orchestration',
                 'duration': '3h 20m',
+                'instructor': 'James Williams'
+            },
+            'networking': {
+                'title': 'Docker Essential Training: 5 Networking',
+                'url': 'https://www.linkedin.com/learning/docker-essential-training-5-networking',
+                'duration': '2h 45m',
+                'instructor': 'James Williams'
+            },
+            'storage': {
+                'title': 'Docker Essential Training: 4 Storage and Volumes',
+                'url': 'https://www.linkedin.com/learning/docker-essential-training-4-storage-and-volumes',
+                'duration': '2h 30m',
                 'instructor': 'James Williams'
             }
         },
@@ -140,6 +152,14 @@ class ActionPlanGenerator:
                 'duration': '5h 45m',
                 'instructor': 'Frederic Ngen'
             }
+        },
+        'Data Science': {
+            'intermediate': {
+                'title': 'Data Cleaning in Python Essential Training',
+                'url': 'https://www.linkedin.com/learning/data-cleaning-in-python-essential-training-17061364',
+                'duration': '3h 30m',
+                'instructor': 'LinkedIn Learning'
+            }
         }
     }
     
@@ -173,6 +193,14 @@ class ActionPlanGenerator:
                 'url': 'https://www.youtube.com/watch?v=ulprqHHWlng',
                 'channel': 'Simplilearn',
                 'duration': '4h 15m'
+            }
+        },
+        'Data Science': {
+            'intermediate': {
+                'title': 'Data Science Full Course',
+                'url': 'https://www.youtube.com/watch?v=ua-CiDNNj30',
+                'channel': 'edureka!',
+                'duration': '11h 52m'
             }
         }
     }
@@ -448,9 +476,10 @@ class ActionPlanGenerator:
             'AWS': 'https://docs.aws.amazon.com/',
             'Docker': 'https://docs.docker.com/',
             'Kubernetes': 'https://kubernetes.io/docs/',
-            'Git': 'https://git-scm.com/doc',
-            'JavaScript': 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
-            'SQL': 'https://www.w3schools.com/sql/'
+                    'Git': 'https://git-scm.com/doc',
+        'JavaScript': 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
+        'SQL': 'https://www.w3schools.com/sql/',
+        'Data Science': 'https://pandas.pydata.org/docs/'
         }
         return docs_mapping.get(skill_name)
     
