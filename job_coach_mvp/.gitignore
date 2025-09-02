@@ -65,3 +65,7 @@ logs/
 # Railway
 .railway/
 INTERVIEW_PREP.md
+
+# Blueprint files - keep local only
+BLUEPRINT_*.md
+MASTER_BLUEPRINT.md
