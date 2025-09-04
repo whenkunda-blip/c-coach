@@ -5,14 +5,14 @@ import re
 class ActionPlanGenerator:
     """Generate personalized action plans with learning resources"""
     
-    # LinkedIn Learning course mappings
+    # LinkedIn Learning course mappings (Updated - Only working URLs)
     LINKEDIN_LEARNING_COURSES = {
         'Python': {
             'beginner': {
                 'title': 'Python Essential Training',
-                'url': 'https://www.linkedin.com/learning/python-essential-training-2',
+                'url': 'https://www.linkedin.com/learning/python-essential-training-18764650',
                 'duration': '4h 30m',
-                'instructor': 'Bill Weinman'
+                'instructor': 'Ryan Mitchell'
             },
             'intermediate': {
                 'title': 'Advanced Python',
@@ -25,6 +25,12 @@ class ActionPlanGenerator:
                 'url': 'https://www.linkedin.com/learning/python-design-patterns',
                 'duration': '2h 15m',
                 'instructor': 'Jungwoo Ryoo'
+            },
+            'data_science': {
+                'title': 'Python for Data Science Essential Training',
+                'url': 'https://www.linkedin.com/learning/python-for-data-science-essential-training',
+                'duration': '4h 30m',
+                'instructor': 'Lillian Pierson'
             }
         },
         'JavaScript': {
@@ -34,11 +40,11 @@ class ActionPlanGenerator:
                 'duration': '5h 15m',
                 'instructor': 'Morten Rand-Hendriksen'
             },
-            'intermediate': {
-                'title': 'JavaScript: Advanced Concepts',
-                'url': 'https://www.linkedin.com/learning/javascript-advanced-concepts',
-                'duration': '4h 20m',
-                'instructor': 'Sasha Vodnik'
+            'backend': {
+                'title': 'Node.js Essential Training',
+                'url': 'https://www.linkedin.com/learning/node-js-essential-training',
+                'duration': '5h 20m',
+                'instructor': 'Alex Banks'
             }
         },
         'React': {
@@ -48,11 +54,11 @@ class ActionPlanGenerator:
                 'duration': '4h 45m',
                 'instructor': 'Eve Porcello'
             },
-            'intermediate': {
-                'title': 'React: Advanced Patterns',
-                'url': 'https://www.linkedin.com/learning/react-advanced-patterns',
-                'duration': '3h 30m',
-                'instructor': 'Shaun Wassell'
+            'testing': {
+                'title': 'React: Testing and Debugging',
+                'url': 'https://www.linkedin.com/learning/react-testing-and-debugging',
+                'duration': '4h 10m',
+                'instructor': 'Eve Porcello'
             }
         },
         'Django': {
@@ -60,12 +66,6 @@ class ActionPlanGenerator:
                 'title': 'Django Essential Training',
                 'url': 'https://www.linkedin.com/learning/django-essential-training',
                 'duration': '4h 10m',
-                'instructor': 'Justin Mitchel'
-            },
-            'intermediate': {
-                'title': 'Django: Advanced Concepts',
-                'url': 'https://www.linkedin.com/learning/django-advanced-concepts',
-                'duration': '3h 55m',
                 'instructor': 'Justin Mitchel'
             }
         },
@@ -77,10 +77,10 @@ class ActionPlanGenerator:
                 'instructor': 'Jeremy Villeneuve'
             },
             'intermediate': {
-                'title': 'AWS for Developers: Deploying Applications',
-                'url': 'https://www.linkedin.com/learning/aws-for-developers-deploying-applications',
-                'duration': '4h 15m',
-                'instructor': 'Jeremy Villeneuve'
+                'title': 'Complete Guide to AWS Software Deployment',
+                'url': 'https://www.linkedin.com/learning/complete-guide-to-aws-software-deployment',
+                'duration': '6h 26m',
+                'instructor': 'Brandon Rich'
             }
         },
         'Docker': {
@@ -91,17 +91,21 @@ class ActionPlanGenerator:
                 'instructor': 'James Williams'
             },
             'intermediate': {
-                'title': 'Docker: Advanced Concepts',
-                'url': 'https://www.linkedin.com/learning/docker-advanced-concepts',
+                'title': 'Docker Essential Training: 2 Orchestration',
+                'url': 'https://www.linkedin.com/learning/docker-essential-training-2-orchestration',
                 'duration': '3h 20m',
                 'instructor': 'James Williams'
-            }
-        },
-        'Kubernetes': {
-            'beginner': {
-                'title': 'Kubernetes Essential Training',
-                'url': 'https://www.linkedin.com/learning/kubernetes-essential-training',
-                'duration': '4h 25m',
+            },
+            'networking': {
+                'title': 'Docker Essential Training: 5 Networking',
+                'url': 'https://www.linkedin.com/learning/docker-essential-training-5-networking',
+                'duration': '2h 45m',
+                'instructor': 'James Williams'
+            },
+            'storage': {
+                'title': 'Docker Essential Training: 4 Storage and Volumes',
+                'url': 'https://www.linkedin.com/learning/docker-essential-training-4-storage-and-volumes',
+                'duration': '2h 30m',
                 'instructor': 'James Williams'
             }
         },
@@ -111,12 +115,6 @@ class ActionPlanGenerator:
                 'url': 'https://www.linkedin.com/learning/git-essential-training-the-basics',
                 'duration': '3h 15m',
                 'instructor': 'Kevin Skoglund'
-            },
-            'intermediate': {
-                'title': 'Git: Advanced Techniques',
-                'url': 'https://www.linkedin.com/learning/git-advanced-techniques',
-                'duration': '2h 45m',
-                'instructor': 'Kevin Skoglund'
             }
         },
         'SQL': {
@@ -125,20 +123,30 @@ class ActionPlanGenerator:
                 'url': 'https://www.linkedin.com/learning/sql-essential-training-2',
                 'duration': '4h 20m',
                 'instructor': 'Bill Weinman'
-            },
-            'intermediate': {
-                'title': 'SQL: Advanced Querying',
-                'url': 'https://www.linkedin.com/learning/sql-advanced-querying',
-                'duration': '3h 30m',
-                'instructor': 'Bill Weinman'
             }
         },
-        'Machine Learning': {
+        'PostgreSQL': {
             'beginner': {
-                'title': 'Machine Learning with Python',
-                'url': 'https://www.linkedin.com/learning/machine-learning-with-python',
-                'duration': '5h 45m',
-                'instructor': 'Frederic Ngen'
+                'title': 'PostgreSQL Essential Training',
+                'url': 'https://www.linkedin.com/learning/postgresql-essential-training',
+                'duration': '4h 15m',
+                'instructor': 'Adam Wilbert'
+            }
+        },
+        'MongoDB': {
+            'beginner': {
+                'title': 'MongoDB Essential Training',
+                'url': 'https://www.linkedin.com/learning/mongodb-essential-training',
+                'duration': '3h 50m',
+                'instructor': 'Justin Jenkins'
+            }
+        },
+        'Data Science': {
+            'intermediate': {
+                'title': 'Data Cleaning in Python Essential Training',
+                'url': 'https://www.linkedin.com/learning/data-cleaning-in-python-essential-training-17061364',
+                'duration': '3h 30m',
+                'instructor': 'LinkedIn Learning'
             }
         }
     }
@@ -173,6 +181,14 @@ class ActionPlanGenerator:
                 'url': 'https://www.youtube.com/watch?v=ulprqHHWlng',
                 'channel': 'Simplilearn',
                 'duration': '4h 15m'
+            }
+        },
+        'Data Science': {
+            'intermediate': {
+                'title': 'Data Science Full Course',
+                'url': 'https://www.youtube.com/watch?v=ua-CiDNNj30',
+                'channel': 'edureka!',
+                'duration': '11h 52m'
             }
         }
     }
@@ -443,14 +459,36 @@ class ActionPlanGenerator:
         """Get official documentation URLs for skills"""
         docs_mapping = {
             'Python': 'https://docs.python.org/3/',
+            'Python PEPs': 'https://www.python.org/dev/peps/',
+            'PyPI': 'https://pypi.org/',
             'React': 'https://react.dev/',
+            'React Native': 'https://reactnative.dev/docs/getting-started',
+            'MDN React Guide': 'https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_getting_started',
             'Django': 'https://docs.djangoproject.com/',
+            'Django REST Framework': 'https://www.django-rest-framework.org/',
+            'Django Start Page': 'https://www.djangoproject.com/start/',
             'AWS': 'https://docs.aws.amazon.com/',
+            'AWS Lambda Function URLs': 'https://docs.aws.amazon.com/lambda/latest/dg/urls-configuration.html',
+            'AWS Lambda URL Auth': 'https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html',
+            'AWS CLI Endpoints': 'https://docs.aws.amazon.com/cli/v1/userguide/cli-configure-endpoints.html',
             'Docker': 'https://docs.docker.com/',
+            'Docker Guides': 'https://docs.docker.com/guides/',
+            'Docker Manuals': 'https://docs.docker.com/manuals/',
+            'Docker Engine': 'https://docs.docker.com/engine/',
             'Kubernetes': 'https://kubernetes.io/docs/',
+            'Kubernetes Concepts': 'https://kubernetes.io/docs/concepts/overview/',
+            'Kubernetes Tutorials': 'https://kubernetes.io/docs/tutorials/',
+            'Kubernetes Deployments': 'https://kubernetes.io/docs/concepts/workloads/controllers/deployment/',
+            'Kubernetes Resource Management': 'https://docs.kubernetes.io/docs/concepts/configuration/manage-resources-containers/',
             'Git': 'https://git-scm.com/doc',
+            'Git User Manual': 'https://git-scm.com/docs/user-manual',
+            'Git Log': 'https://git-scm.com/docs/git-log',
+            'Git Branch': 'https://git-scm.com/docs/git-branch',
+            'Git Add': 'https://git-scm.com/docs/git-add',
+            'Git Commit': 'https://git-scm.com/docs/git-commit',
             'JavaScript': 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
-            'SQL': 'https://www.w3schools.com/sql/'
+            'SQL': 'https://www.w3schools.com/sql/',
+            'Data Science': 'https://pandas.pydata.org/docs/'
         }
         return docs_mapping.get(skill_name)
     
