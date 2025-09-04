@@ -5,7 +5,7 @@ import re
 class ActionPlanGenerator:
     """Generate personalized action plans with learning resources"""
     
-    # LinkedIn Learning course mappings
+    # LinkedIn Learning course mappings (Updated - Only working URLs)
     LINKEDIN_LEARNING_COURSES = {
         'Python': {
             'beginner': {
@@ -25,6 +25,12 @@ class ActionPlanGenerator:
                 'url': 'https://www.linkedin.com/learning/python-design-patterns',
                 'duration': '2h 15m',
                 'instructor': 'Jungwoo Ryoo'
+            },
+            'data_science': {
+                'title': 'Python for Data Science Essential Training',
+                'url': 'https://www.linkedin.com/learning/python-for-data-science-essential-training',
+                'duration': '4h 30m',
+                'instructor': 'Lillian Pierson'
             }
         },
         'JavaScript': {
@@ -34,11 +40,11 @@ class ActionPlanGenerator:
                 'duration': '5h 15m',
                 'instructor': 'Morten Rand-Hendriksen'
             },
-            'intermediate': {
-                'title': 'JavaScript: Advanced Concepts',
-                'url': 'https://www.linkedin.com/learning/javascript-advanced-concepts',
-                'duration': '4h 20m',
-                'instructor': 'Sasha Vodnik'
+            'backend': {
+                'title': 'Node.js Essential Training',
+                'url': 'https://www.linkedin.com/learning/node-js-essential-training',
+                'duration': '5h 20m',
+                'instructor': 'Alex Banks'
             }
         },
         'React': {
@@ -48,11 +54,11 @@ class ActionPlanGenerator:
                 'duration': '4h 45m',
                 'instructor': 'Eve Porcello'
             },
-            'intermediate': {
-                'title': 'React: Advanced Patterns',
-                'url': 'https://www.linkedin.com/learning/react-advanced-patterns',
-                'duration': '3h 30m',
-                'instructor': 'Shaun Wassell'
+            'testing': {
+                'title': 'React: Testing and Debugging',
+                'url': 'https://www.linkedin.com/learning/react-testing-and-debugging',
+                'duration': '4h 10m',
+                'instructor': 'Eve Porcello'
             }
         },
         'Django': {
@@ -60,12 +66,6 @@ class ActionPlanGenerator:
                 'title': 'Django Essential Training',
                 'url': 'https://www.linkedin.com/learning/django-essential-training',
                 'duration': '4h 10m',
-                'instructor': 'Justin Mitchel'
-            },
-            'intermediate': {
-                'title': 'Django: Advanced Concepts',
-                'url': 'https://www.linkedin.com/learning/django-advanced-concepts',
-                'duration': '3h 55m',
                 'instructor': 'Justin Mitchel'
             }
         },
@@ -77,10 +77,10 @@ class ActionPlanGenerator:
                 'instructor': 'Jeremy Villeneuve'
             },
             'intermediate': {
-                'title': 'AWS for Developers: Deploying Applications',
-                'url': 'https://www.linkedin.com/learning/aws-for-developers-deploying-applications',
-                'duration': '4h 15m',
-                'instructor': 'Jeremy Villeneuve'
+                'title': 'Complete Guide to AWS Software Deployment',
+                'url': 'https://www.linkedin.com/learning/complete-guide-to-aws-software-deployment',
+                'duration': '6h 26m',
+                'instructor': 'Brandon Rich'
             }
         },
         'Docker': {
@@ -109,25 +109,11 @@ class ActionPlanGenerator:
                 'instructor': 'James Williams'
             }
         },
-        'Kubernetes': {
-            'beginner': {
-                'title': 'Kubernetes Essential Training',
-                'url': 'https://www.linkedin.com/learning/kubernetes-essential-training',
-                'duration': '4h 25m',
-                'instructor': 'James Williams'
-            }
-        },
         'Git': {
             'beginner': {
                 'title': 'Git Essential Training',
                 'url': 'https://www.linkedin.com/learning/git-essential-training-the-basics',
                 'duration': '3h 15m',
-                'instructor': 'Kevin Skoglund'
-            },
-            'intermediate': {
-                'title': 'Git: Advanced Techniques',
-                'url': 'https://www.linkedin.com/learning/git-advanced-techniques',
-                'duration': '2h 45m',
                 'instructor': 'Kevin Skoglund'
             }
         },
@@ -137,20 +123,22 @@ class ActionPlanGenerator:
                 'url': 'https://www.linkedin.com/learning/sql-essential-training-2',
                 'duration': '4h 20m',
                 'instructor': 'Bill Weinman'
-            },
-            'intermediate': {
-                'title': 'SQL: Advanced Querying',
-                'url': 'https://www.linkedin.com/learning/sql-advanced-querying',
-                'duration': '3h 30m',
-                'instructor': 'Bill Weinman'
             }
         },
-        'Machine Learning': {
+        'PostgreSQL': {
             'beginner': {
-                'title': 'Machine Learning with Python',
-                'url': 'https://www.linkedin.com/learning/machine-learning-with-python',
-                'duration': '5h 45m',
-                'instructor': 'Frederic Ngen'
+                'title': 'PostgreSQL Essential Training',
+                'url': 'https://www.linkedin.com/learning/postgresql-essential-training',
+                'duration': '4h 15m',
+                'instructor': 'Adam Wilbert'
+            }
+        },
+        'MongoDB': {
+            'beginner': {
+                'title': 'MongoDB Essential Training',
+                'url': 'https://www.linkedin.com/learning/mongodb-essential-training',
+                'duration': '3h 50m',
+                'instructor': 'Justin Jenkins'
             }
         },
         'Data Science': {
